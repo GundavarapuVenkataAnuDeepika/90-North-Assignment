@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Webpage</title>
+    <style>
+        * {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    margin-top: 60px; /* Space for the fixed navbar */
+}
+
+.left-menu {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    transition: width 0.3s;
+}
+
+.left-menu.collapsed {
+    width: 0;
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    padding: 15px;
+}
+
+.right-panel {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 15px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>My Website</h1>
+        <button id="toggleMenu">Toggle Menu</button>
+    </div>
+    <div class="container">
+        <div class="left-menu" id="leftMenu">
+            <h2>Left Menu</h2>
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <h2>Main Content Area</h2>
+            <p>This is where the main content goes.</p>
+        </div>
+        <div class="right-panel">
+            <h2>Right Panel</h2>
+            <p>This is the right-side panel.</p>
+        </div>
+    </div>
+    <footer>
+        <p>Footer Content</p>
+    </footer>
+    <script>
+        document.getElementById('toggleMenu').addEventListener('click', function() {
+    const leftMenu = document.getElementById('leftMenu');
+    leftMenu.classList.toggle('collapsed');
+});
+
+function adjustPageWidth() {
+    const width = window.innerWidth;
+    const body = document.body;
+
+    if (width > 992 && width <= 1600) {
+        body.style.transform = 'scale(0.9)';
+        body.style.transformOrigin = 'top left';
+    } else if (width >= 700 && width < 992) {
+        body.style.transform = 'scale(0.8)';
+        body.style.transformOrigin = 'top left';
+    } else if (width >= 600 && width < 700) {
+        body.style.transform = 'scale(0.75)';
+        body.style.transformOrigin = 'top left';
+    } else if (width <= 600) {
+        body.style.transform = 'scale(0.5)';
+        body.style.transformOrigin = 'top left';
+    } else {
+        body.style.transform = 'none'; // Reset to normal
+    }
+}
+
+// Adjust page width on load and on resize
+window.addEventListener('load', adjustPageWidth);
+window.addEventListener('resize', adjustPageWidth);
+    </script>
+</body>
+</html>
