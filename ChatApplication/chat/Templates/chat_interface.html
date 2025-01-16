@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with {{ receiver.username }}</title>
+    <script>
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/{{ receiver.username }}/'
+        );
+
+        chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    console.log('Message received:', data);  // Add this line
+    document.querySelector('#messages').innerHTML += '<div><strong>' + data.sender + ':</strong> ' + data.message + '</div>';
+};
+        function sendMessage() {
+    const messageInputDom = document.querySelector('#messageInput');
+    const message = messageInputDom.value;
+    console.log('Sending message:', message);  // Add this line
+    chatSocket.send(JSON.stringify({
+        'message': message
+    }));
+    messageInputDom.value = '';
+}
+    </script>
+</head>
+<body>
+    <h1>Chat with {{ receiver.username }}</h1>
+    <div id="messages" style="border: 1px solid #ccc; height: 300px; overflow-y: scroll;">
+        {% for message in messages %}
+            <div><strong>{{ message.sender.username }}:</strong> {{ message.content }}</div>
+        {% endfor %}
+    </div>
+    <input type="text" id="messageInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+    <p><a href="{% url 'chat_home' %}">Back to chat home</a></p>
+</body>
+</html>
